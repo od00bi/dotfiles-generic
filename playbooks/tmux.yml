@@ -1,0 +1,23 @@
+- name: Install tmux
+  hosts: localhost
+  tasks:
+    - name: Install packages
+      community.general.pacman:
+        name: tmux
+      become: true
+    - name: Create tmux folder
+      ansible.builtin.file:
+        name: "$HOME/.tmux/plugins/tpm"
+        state: directory
+    - name: Install tpm
+      ansible.builtin.git:
+        repo: "https://github.com/tmux-plugins/tpm.git"
+        dest: "~/.tmux/plugins/tpm"
+    - name: Copy configuration
+      ansible.builtin.copy:
+        src: tmux.conf
+        dest: ~/.tmux.conf
+    - name: Copy theme
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/ivnvxd/tmux-snazzy/main/.tmux.snazzy.theme
+        dest: ~/.tmux/tmux-snazzy.theme.conf
