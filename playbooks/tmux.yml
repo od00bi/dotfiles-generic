@@ -1,7 +1,7 @@
-- name: Install tmux
+- name: Set up tmux
   hosts: localhost
   tasks:
-    - name: Install packages
+    - name: Check for and/or install tmux
       community.general.pacman:
         name: tmux
       become: true
@@ -17,7 +17,7 @@
       ansible.builtin.copy:
         src: tmux.conf
         dest: ~/.tmux.conf
-    - name: Copy theme
+    - name: Get snazzy theme
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/ivnvxd/tmux-snazzy/main/.tmux.snazzy.theme
         dest: ~/.tmux/tmux-snazzy.theme.conf
