@@ -1,0 +1,51 @@
+- name: zsh user configuration
+  hosts: localhost
+  tasks:
+    - name: Install packages
+      community.general.pacman:
+        name:
+          - zsh
+          - zsh-autosuggestions
+          - zsh-syntax-highlighting
+      become: true
+    - name: Change user shell to zsh
+      ansible.builtin.user:
+        name: "{{ ansible_env.USER }}"
+        shell: /usr/bin/zsh
+      become: true
+    - name: Copy zshenv
+      ansible.builtin.copy:
+        src: zshenv
+        dest: $HOME/.zshenv
+    - name: Create zsh dir
+      ansible.builtin.file:
+        name: $HOME/.config/zsh
+        state: directory
+        mode: '0755'
+    - name: Checking if old zshrc exists
+      ansible.builtin.stat:
+        path: $HOME/zsh/.zshrc
+      register: old_zshrc
+    - name: Copy zshrc
+      ansible.builtin.copy:
+        src: zshrc
+        dest: $HOME/.config/zsh/.zshrc
+    - name: Copy zprofile
+      ansible.builtin.copy:
+        src: zprofile
+        dest: $HOME/.config/zsh/.zprofile
+    - name: Backup original zshrc
+      ansible.builtin.copy:
+        remote_src: true
+        src: $HOME/.zshrc
+        dest: $HOME/.zshrc.backup
+      when: old_zshrc.stat.exists
+    - name: Delete original zshrc
+      ansible.builtin.file:
+        path: $HOME/.zshrc
+        state: absent
+      when: old_zshrc.stat.exists
+    - name: Install pure-prompt
+      git:
+        repo: https://github.com/sindresorhus/pure.git
+        dest: $HOME/.config/zsh/pure

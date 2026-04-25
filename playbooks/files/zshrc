@@ -1,0 +1,15 @@
+HISTFILE=~/.config/zsh/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+unsetopt beep
+bindkey -v
+autoload -Uz compinit; compinit
+fpath+=($HOME/.config/zsh/pure)
+autoload promptinit; promptinit
+prompt pure
+source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+alias ls="ls --color=auto"
+alias ll="ls -l"
+alias ssh="TERM=xterm-256color ssh"
+alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles" --work-tree="$HOME"'
