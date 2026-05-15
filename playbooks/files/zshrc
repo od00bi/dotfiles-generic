@@ -12,4 +12,4 @@ source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 alias ls="ls --color=auto"
 alias ll="ls -l"
 alias ssh="TERM=xterm-256color ssh"
-alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles" --work-tree="$HOME"'
+alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME"'
